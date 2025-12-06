@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useUser } from "../context/UserContext";
-import upload_area from '../assets/upload_area.png';
+
 
 const UpdateEvent = ({props}) => {
   const {setUpdateEventPopup} = useUser();
