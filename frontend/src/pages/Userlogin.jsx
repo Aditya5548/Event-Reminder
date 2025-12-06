@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { ToastContainer } from 'react-toastify';
 import { auth, googleProvider } from '../firebase/firebaseConfig.jsx';
 import { signInWithPopup } from "firebase/auth";
-
+import Waiting from "../components/Waiting.jsx";
 import { useUser } from "../context/UserContext";
 import google_icon from '../assets/google_icon.png';
 

@@ -94,7 +94,7 @@ const Dashboard = () => {
                 </div>
                 <div className='flex flex-col px-1'>
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/public/upload/${response.image}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/upload/${response.image}`}
                     alt='not found'
                     className='w-[150px] h-[100px] rounded-xl self-center py-2'
                   />

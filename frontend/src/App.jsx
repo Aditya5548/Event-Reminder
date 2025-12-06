@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-
+import Waiting from './components/Waiting.jsx';
 import Userlogin from './pages/Userlogin.jsx';
 import UserReg from './pages/UserReg.jsx';
 import Dashboard from './pages/Dashboard.jsx';
@@ -27,7 +27,7 @@ const App = () => {
   return (
     <div className='w-full h-screen'>
       <PushNotification /> 
-      {loginStatus ==='active' ? <Dashboard /> : showhideoptions == 1 ? <Userlogin /> : showhideoptions == 2 ? <UserReg /> : " "}
+      {loginStatus ==='active' ? <Dashboard /> : showhideoptions == 1 ? <Userlogin /> : showhideoptions == 2 ? <UserReg /> : <Waiting/>}
     </div>
   )
 }
