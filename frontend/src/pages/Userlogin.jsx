@@ -16,6 +16,7 @@ const Userlogin = () => {
   const { setUsername } = useUser();
   const data = { email, password }
   const loginHandler = async (e) => {
+   setShowhideoptions(false)
     e.preventDefault();
     var response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/userlogin`, { params: data })
     if (response.data.success == true) {
@@ -27,10 +28,12 @@ const Userlogin = () => {
     }
     else {
       toast.error(response.data.msg)
+      setShowhideoptions(1)
     }
   }
 
   const loginWithGoogle = async () => {
+    setShowhideoptions(false)
     try {
       const result = await signInWithPopup(auth, googleProvider)
       if (result.user.email && result.user.displayName) {
@@ -49,6 +52,7 @@ const Userlogin = () => {
         }
         else {
           toast.error(response.data.msg)
+          setShowhideoptions(1)
         }
       } 
     }
@@ -65,7 +69,7 @@ const Userlogin = () => {
         <div className='flex flex-col gap-2 w-[90%] md:w-[400px] border border-gray-200 shadow-lg px-10 py-3 bg-white'>
           <h1 className="text-3xl text-center font-bold italic py-2 px-1 text-md">Login</h1>
           <div className="pt-2">
-            <h1 className="flex">Don't have an account ?<button className="text-blue-600  italic  px-1 font-bold text-md" onClick={() => { setShowhideoptions(2) }}>SignUp</button></h1>
+            <h1 className="flex text-sm md:text-lg">Don't have an account ?<button className="text-blue-600  italic  px-1 font-bold text-md" onClick={() => { setShowhideoptions(2) }}>SignUp</button></h1>
           </div>
           <form className='flex flex-col gap-3 pt-3' onSubmit={loginHandler}>
             <input type="email" placeholder='email Id' className='w-full outline-none border border-gray-200 px-3 py-1' name="email" value={email} onChange={(e) => { SetEmail(e.target.value) }} required />

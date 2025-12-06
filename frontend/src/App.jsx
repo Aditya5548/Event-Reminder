@@ -7,7 +7,7 @@ import Dashboard from './pages/Dashboard.jsx';
 import { useUser } from './context/UserContext.jsx';
 import { PushNotification } from './firebase/PushNotification.jsx';
 const App = () => {
-  const { loginStatus, setLoginStatus } = useUser();
+  const { loginStatus, setLoginStatus } = useUser(false);
   const { showhideoptions, setShowhideoptions } = useUser();
   const { setUsername } = useUser();
   useEffect(() => {

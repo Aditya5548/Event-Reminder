@@ -18,7 +18,8 @@ const UserReg = () => {
   const [phoneno, SetPhoneno] = useState()
   const [password, SetPassword] = useState()
   const data = { name, gender, dob, email, phoneno, password }
-  const logcode = async (e) => {
+  const Registration = async (e) => {
+    setShowhideoptions(false)
     e.preventDefault();
     var response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/userreg`, data)
     if (response.data.success == true) {
@@ -34,10 +35,12 @@ const UserReg = () => {
     }
     else {
       toast.error("All Field Are required")
+      setShowhideoptions(2)
     }
   }
 
   const loginWithGoogle = async () => {
+    setShowhideoptions(false)
     try {
       const result = await signInWithPopup(auth, googleProvider)
       if (result.user.email && result.user.displayName) {
@@ -56,6 +59,7 @@ const UserReg = () => {
         }
         else {
           toast.error(response.data.msg)
+          setShowhideoptions(2)
         }
       }
     }
@@ -76,11 +80,11 @@ const UserReg = () => {
       <div className='fixed top-0 left-0 z-5 flex justify-center items-center w-screen h-screen bg-gray-500/10'>
         <ToastContainer />
         <div className='flex flex-col gap-2 w-[90%] md:w-[400px] border border-gray-200 shadow-2xl px-10 pt-2 pb-3 bg-white'>
-          <h1 className="text-2xl text-center font-bold italic pt-3">Sign-up</h1>
-                    <div className="pt-2">
-            <h1 className="flex">Already have an account ?<button className="text-blue-600 px-1 font-bold text-md italic" onClick={() => { setShowhideoptions(1) }}> Login</button></h1>
+          <h1 className="text-2xl text-center font-bold italic pt-3 md:text-2xl">Sign-up</h1>
+          <div className="pt-2">
+            <h1 className="flex text-sm md:text-lg">Already have an account ?<button className="text-blue-600 px-1 font-bold text-md italic" onClick={() => { setShowhideoptions(1) }}> Login</button></h1>
           </div>
-          <form className='flex flex-col gap-2 pt-2' onSubmit={logcode}>
+          <form className='flex flex-col gap-2 pt-2' onSubmit={Registration}>
             <input type="text" placeholder='Your Name' className='w-full outline-none border border-gray-200 px-3 py-1' name="name" value={name} onChange={(e) => { SetName(e.target.value) }} required />
             <div className="flex gap-2 text-lg py-1">
               <label htmlFor="male"> Male</label>
