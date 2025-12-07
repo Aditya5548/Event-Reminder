@@ -17,9 +17,10 @@ const UserReg = () => {
   const [email, SetEmail] = useState()
   const [phoneno, SetPhoneno] = useState()
   const [password, SetPassword] = useState()
+  const [highlight, setHighlight] = useState(false);
   const data = { name, gender, dob, email, phoneno, password }
   const Registration = async (e) => {
-    setShowhideoptions(false)
+    setHighlight(true)
     e.preventDefault();
     var response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/userreg`, data)
     if (response.data.success == true) {
@@ -31,16 +32,19 @@ const UserReg = () => {
       SetGender("")
       localStorage.setItem("usertoken", response.data.usertoken)
       setUsername(response.data.username.split(" ")[0])
+      setHighlight(false)
       setLoginStatus('active')
+
     }
     else {
+      setHighlight(false)
       toast.error("All Field Are required")
       setShowhideoptions(2)
     }
   }
 
   const loginWithGoogle = async () => {
-    setShowhideoptions(false)
+    setHighlight(true)
     try {
       const result = await signInWithPopup(auth, googleProvider)
       if (result.user.email && result.user.displayName) {
@@ -50,15 +54,18 @@ const UserReg = () => {
           authtype: "google",
         }
         var response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/userreg`, data)
+        
         if (response.data.success == true) {
           SetEmail("")
           SetPassword("")
           localStorage.setItem("usertoken", response.data.usertoken)
           setUsername(response.data.username.split(" ")[0])
           setLoginStatus('active')
+          setHighlight(false)
         }
         else {
           toast.error(response.data.msg)
+          setHighlight(false)
           setShowhideoptions(2)
         }
       }
@@ -79,6 +86,15 @@ const UserReg = () => {
     <>
       <div className='fixed top-0 left-0 z-5 flex justify-center items-center w-screen h-screen bg-gray-500/10'>
         <ToastContainer />
+                {highlight && (
+          <div className="absolute top-0 left-0 w-full h-1 overflow-hidden">
+            <div className="w-[50%] h-full bg-linear-to-r from-blue-300 to-purple-300 animate-[leftToRight_1s_linear_infinite] z-30">
+            </div>
+          </div>
+        )}
+          {highlight && (
+            <div className="absolute inset-0 backdrop-blur-xs z-10"></div>
+          )}
         <div className='flex flex-col gap-2 w-[90%] md:w-[400px] border border-gray-200 shadow-2xl px-10 pt-2 pb-3 bg-white'>
           <h1 className="text-2xl text-center font-bold italic pt-3 md:text-2xl">Sign-up</h1>
           <div className="pt-2">

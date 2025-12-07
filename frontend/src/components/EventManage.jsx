@@ -8,6 +8,7 @@ const EventManage = () => {
   const { setEventAddPopUp } = useUser();
   const { fcmtoken } = useUser();
   const [image, setImage] = useState(false)
+  const [highlight, setHighlight] = useState(false);
   let [data, setData] = useState({
     eventname: "",
     description: "",
@@ -24,6 +25,7 @@ const EventManage = () => {
 
   const eventadd = async (e) => {
     e.preventDefault();
+    setHighlight(true)
     const formData = new FormData();
     formData.append('eventimage', image)
     formData.append('eventname', data.eventname)
@@ -34,6 +36,7 @@ const EventManage = () => {
     formData.append('fcmtoken', fcmtoken)
     formData.append('userid', localStorage.getItem('usertoken'))
     var response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/eventadd`, formData)
+    setHighlight(false)
     if (response.data.success == true) {
       toast.success("successfull event added")
       setEventAddPopUp(false)
@@ -47,6 +50,13 @@ const EventManage = () => {
     <>
       <div className='fixed top-0 left-0 z-5 flex justify-center items-center w-screen h-screen bg-gray-500/10'>
         <ToastContainer />
+        {highlight && (
+          <div className="absolute top-0 left-0 w-full h-0.5 overflow-hidden">
+            <div className="w-[50%] h-full bg-linear-to-r from-blue-300 to-purple-300 animate-[leftToRight_1s_linear_infinite] z-30">
+            </div>
+          </div>
+        )}
+        
         <div className='flex flex-col gap-2 w-[90%] md:w-[400px] border border-gray-200 shadow-2xl px-10 pt-2 pb-3 bg-white'>
           <button className="text-2xl text-end " onClick={() => setEventAddPopUp(false)}>X</button>
           <h1 className="text-2xl text-center font-bold italic">Event Detail</h1>

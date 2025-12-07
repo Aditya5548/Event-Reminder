@@ -6,23 +6,26 @@ import { useUser } from "../context/UserContext";
 
 
 const UpdateEvent = ({props}) => {
-  const {setUpdateEventPopup} = useUser();
-  const [eventname,setEventname]=useState(props.eventname);
-  const [description,setDescription]=useState(props.description);
-  const [date,setDate]=useState(props.date);
-  const [starttime,setStarttime]=useState(props.starttime);
-  const [endtime,setEndtime]=useState(props.endtime);
-  const [reminder,SetReminder]=useState("")
-  const change = async (e) => {
+  let {setUpdateEventPopup} = useUser();
+  let [eventname,setEventname]=useState(props.eventname);
+  let [description,setDescription]=useState(props.description);
+  let [date,setDate]=useState(props.date);
+  let [starttime,setStarttime]=useState(props.starttime);
+  let [endtime,setEndtime]=useState(props.endtime);
+  let [highlight, setHighlight] = useState(false);
+  let change = async (e) => {
     e.preventDefault();
-    const data={eventname,description,date,starttime,endtime,id:props._id,status:"Upcoming",actiontype:"updatevent"}
-    const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/eventupdate`,data)
+    setHighlight(true)
+    let data={eventname,description,date,starttime,endtime,id:props._id,status:"Upcoming",actiontype:"updatevent"}
+    let response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/eventupdate`,data)
     if (response.data.success == true) {
       toast.success("successfull event added")
+      setEventAddPopUp(false)
       setUpdateEventPopup(false)
       window.location.reload()
     }
     else {
+      setEventAddPopUp(false)
       toast.error(response.data.msg)
     }
   }
@@ -30,6 +33,12 @@ const UpdateEvent = ({props}) => {
     <>
       <div className='fixed top-0 left-0 z-5 flex justify-center items-center w-screen h-screen bg-gray-500/10'>
         <ToastContainer />
+                {highlight && (
+          <div className="absolute top-0 left-0 w-full h-0.5 overflow-hidden">
+            <div className="w-[50%] h-full bg-linear-to-r from-blue-300 to-purple-300 backdrop-blur-xl animate-[leftToRight_0.5s_linear_infinite] z-30">
+            </div>
+          </div>
+        )}
         <div className='flex flex-col gap-2 w-[90%] md:w-[400px] border border-gray-200 shadow-2xl px-10 pt-2 pb-3 bg-white'>
           <button className="text-2xl text-end " onClick={(e) =>{setUpdateEventPopup(false)}}>X</button>
           <h1 className="text-2xl text-center font-bold italic">{props.actiontype} Events</h1>
