@@ -1,10 +1,11 @@
 import { ToastContainer } from 'react-toastify';
 import { useState } from "react";
 import axios from "axios";
+import { mutate } from 'swr';
 import { toast } from "react-toastify";
 import { useUser } from "../context/UserContext";
 import upload_area from '../assets/upload_area.png';
-const EventManage = () => {
+const EventManage = ({ userId, filterbydate }) => {
   const { setEventAddPopUp } = useUser();
   const { fcmtoken } = useUser();
   const [image, setImage] = useState(false)
@@ -38,9 +39,8 @@ const EventManage = () => {
     var response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/eventadd`, formData)
     setHighlight(false)
     if (response.data.success == true) {
-      toast.success("successfull event added")
+      mutate(`${import.meta.env.VITE_BACKEND_URL}/eventfind?userid=${userId}&date=${filterbydate}`)
       setEventAddPopUp(false)
-      window.location.reload()
     }
     else {
       toast.error(response.data.msg)
@@ -51,7 +51,7 @@ const EventManage = () => {
       <div className='fixed top-0 left-0 z-5 flex justify-center items-center w-screen h-screen bg-gray-500/10'>
         <ToastContainer />
         {highlight && (
-          <div className="absolute top-0 left-0 w-full h-0.5 overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 overflow-hidden">
             <div className="w-[50%] h-full bg-linear-to-r from-blue-300 to-purple-300 animate-[leftToRight_1s_linear_infinite] z-30">
             </div>
           </div>

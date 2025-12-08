@@ -3,9 +3,9 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useUser } from "../context/UserContext";
+import { mutate } from 'swr';
 
-
-const UpdateEvent = ({props}) => {
+const UpdateEvent = ({props, userId, filterbydate}) => {
   let {setUpdateEventPopup} = useUser();
   let [eventname,setEventname]=useState(props.eventname);
   let [description,setDescription]=useState(props.description);
@@ -15,17 +15,15 @@ const UpdateEvent = ({props}) => {
   let [highlight, setHighlight] = useState(false);
   let change = async (e) => {
     e.preventDefault();
-    setHighlight(true)
+    setHighlight(true);
     let data={eventname,description,date,starttime,endtime,id:props._id,status:"Upcoming",actiontype:"updatevent"}
     let response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/eventupdate`,data)
+    setHighlight(false)
     if (response.data.success == true) {
-      toast.success("successfull event added")
-      setEventAddPopUp(false)
+      mutate(`${import.meta.env.VITE_BACKEND_URL}/eventfind?userid=${userId}&date=${filterbydate}`)
       setUpdateEventPopup(false)
-      window.location.reload()
     }
     else {
-      setEventAddPopUp(false)
       toast.error(response.data.msg)
     }
   }
@@ -34,7 +32,7 @@ const UpdateEvent = ({props}) => {
       <div className='fixed top-0 left-0 z-5 flex justify-center items-center w-screen h-screen bg-gray-500/10'>
         <ToastContainer />
                 {highlight && (
-          <div className="absolute top-0 left-0 w-full h-0.5 overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 overflow-hidden">
             <div className="w-[50%] h-full bg-linear-to-r from-blue-300 to-purple-300 backdrop-blur-xl animate-[leftToRight_0.5s_linear_infinite] z-30">
             </div>
           </div>

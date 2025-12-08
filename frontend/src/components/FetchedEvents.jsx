@@ -85,9 +85,9 @@ const FetchedEvents = () => {
           </div>
 
           <div className='flex flex-wrap justify-center pt-5 min-h-[500px]'>
-            {filteredEvents?.length === 0 && <h1 className='md:text-xl'>No events found</h1>}
-            {isLoading && <h1 className='md:text-xl'>Wait We are Fetching Data</h1>}
-            {error && <h1>Error while fetching the data</h1>}
+            {filteredEvents?.length === 0 && <h1 className='text-lg md:text-xl'>No events found</h1>}
+            {isLoading && <h1 className='text-lg md:text-xl'>Please wait.....</h1>}
+            {error && <h1>Unable to fetch data......</h1>}
             {filteredEvents?.filter((response) => category == "All" ? true : response.status == category).map((response, index) => (
               <div key={index} className='border border-gray-300/60 w-100 sm:max-w-[250px] h-fit mx-3 my-2 hover:bg-gray-100 hover:shadow-lg'>
                 <div className='flex justify-between px-4 py-1 bg-gray-200 md:text-lg'>
@@ -121,8 +121,8 @@ const FetchedEvents = () => {
         </div>
       </div>
 
-      {eventAddPopUp && <EventManage/>}
-      {updateEventPopup && <UpdateEvent props={updateRequestProp}/>}
+      {eventAddPopUp && <EventManage userId={userId} filterbydate={filterbydate}/>}
+      {updateEventPopup && <UpdateEvent props={updateRequestProp} userId={userId} filterbydate={filterbydate}/>}
       <button className='fixed bottom-10 right-10 text-xl md:text-2xl bg-sky-500 px-5 py-2 font-bold text-white rounded-lg'
         onClick={() => setEventAddPopUp(true)}
       >

@@ -24,7 +24,7 @@ router.post("/send-web-push-notification", async (req, res) => {
     return res.status(200).json({ success: true, msg: "Notification sent!", data: response });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, msg: "Error sending notification", error: error.message });
+    return res.status(500).json({ success: false, msg: "Error sending notification"});
   }
 });
 
